@@ -3353,7 +3353,8 @@ function OfflineEditor () {
             	}
             };
 
-            _api.asc_nativeOpenFile(window["native"]["GetFileString"](), undefined, true, window["native"]["GetXlsxPath"]()).then(thenCallback, thenCallback);
+            _api.asc_nativeOpenFile(window["native"]["GetFileString"](), undefined, true, window["native"]["GetXlsxPath"]());
+            thenCallback();
            
             // TODO: Implement frozen places
             // TODO: Implement Text Art Styles
@@ -6860,8 +6861,9 @@ window["Asc"]["spreadsheet_api"].prototype.openDocument = function(file) {
                                                       t.collaborativeEditing, t.fontRenderingMode);
                };
                
-               t.openDocumentFromZip(t.wbModel, window["native"]["GetXlsxPath"]()).then(thenCallback, thenCallback);
-               
+               t.openDocumentFromZip(t.wbModel, window["native"]["GetXlsxPath"]());
+               thenCallback();
+
                if (!sdkCheck) {
                
                //console.log("OPEN FILE ONLINE");
