@@ -1407,7 +1407,6 @@ var editor;
 
 		var openXml = AscCommon.openXml;
 		var pivotCaches = {};
-		var doc = new openXml.OpenXmlPackage();
 		var xmlParserContext = new XmlParserContext();
 		var wbPart = null;
 		var wbXml = null;
@@ -1416,7 +1415,7 @@ var editor;
 			return false;
 		}
 		xmlParserContext.zip = jsZipWrapper;
-		doc.openFromZip(jsZipWrapper);
+		var doc = new openXml.OpenXmlPackage(jsZipWrapper);
 		wbPart = doc.getPartByRelationshipType(openXml.relationshipTypes.workbook);
 		var contentWorkbook = wbPart.getDocumentContent();
 		AscCommonExcel.executeInR1C1Mode(false, function() {
