@@ -7616,7 +7616,7 @@ function RangeDataManagerElem(bbox, data)
 		if (null !== this.Ref) {
 			writer.WriteXmlAttributeStringEncode("ref", this.Ref.getName());
 		}
-		writer.WriteXmlNodeEnd(name, true);
+		writer.WriteXmlAttributesEnd();
 		for (var i = 0; i < this.FilterColumns.length; ++i) {
 			var elem = this.FilterColumns[i];
 			elem.toXml(writer, "filterColumn");
@@ -8458,7 +8458,7 @@ function RangeDataManagerElem(bbox, data)
 		if (true !== this.ShowButton) {
 			writer.WriteXmlAttributeBool("showButton", this.ShowButton);
 		}
-		writer.WriteXmlNodeEnd(name, true);
+		writer.WriteXmlAttributesEnd();
 		if (null !== this.ColorFilter) {
 			this.ColorFilter.toXml(writer, "colorFilter");
 		}
@@ -8496,7 +8496,7 @@ function RangeDataManagerElem(bbox, data)
 		if (null !== this.Val) {
 			writer.WriteXmlAttributeStringEncode("val", this.Val);
 		}
-		writer.WriteXmlNodeEnd(name, true, true);
+		writer.WriteXmlAttributesEnd(true);
 	};
 
 	/** @constructor */
@@ -8720,7 +8720,7 @@ function RangeDataManagerElem(bbox, data)
 		if (null !== this.Blank) {
 			writer.WriteXmlAttributeBool("blank", this.Blank);
 		}
-		writer.WriteXmlNodeEnd(name, true);
+		writer.WriteXmlAttributesEnd();
 		for (var val in this.Values) {
 			var filter = new CT_Filter();
 			filter.Val = val;
@@ -8880,7 +8880,7 @@ DateGroupItem.prototype.toXml = function(writer, name) {
 	if (null !== this.DateTimeGrouping) {
 		writer.WriteXmlAttributeStringEncode("dateTimeGrouping", ToXml_ST_DateTimeGrouping(this.DateTimeGrouping));
 	}
-	writer.WriteXmlNodeEnd(name, true, true);
+	writer.WriteXmlAttributesEnd(true);
 };
 
 var g_oCustomFilters = {
@@ -9017,7 +9017,7 @@ CustomFilters.prototype.toXml = function(writer, name) {
 	if (false !== this.And) {
 		writer.WriteXmlAttributeBool("and", this.And);
 	}
-	writer.WriteXmlNodeEnd(name, true);
+	writer.WriteXmlAttributesEnd();
 	if (this.CustomFilters) {
 		for (var i = 0; i < this.CustomFilters.length; ++i) {
 			var elem = this.CustomFilters[i];
@@ -9318,7 +9318,7 @@ CustomFilter.prototype.toXml = function(writer, name) {
 	if (null !== this.Val) {
 		writer.WriteXmlAttributeStringEncode("val", this.Val);
 	}
-	writer.WriteXmlNodeEnd(name, true, true);
+	writer.WriteXmlAttributesEnd(true);
 };
 CustomFilter.prototype.Write_ToBinary2 = function(writer) {
 	if (null != this.Operator) {
@@ -9510,7 +9510,7 @@ DynamicFilter.prototype.toXml = function(writer, name) {
 	if (null !== this.MaxVal) {
 		writer.WriteXmlAttributeNumber("maxVal", this.MaxVal);
 	}
-	writer.WriteXmlNodeEnd(name, true, true);
+	writer.WriteXmlAttributesEnd(true);
 };
 DynamicFilter.prototype.Write_ToBinary2 = function(writer) {
 	if (null !== this.Type) {
@@ -9729,7 +9729,7 @@ ColorFilter.prototype.toXml = function(writer, name) {
 	if (null !== this.CellColor) {
 		writer.WriteXmlAttributeBool("cellColor", this.CellColor);
 	}
-	writer.WriteXmlNodeEnd(name, true, true);
+	writer.WriteXmlAttributesEnd(true);
 };
 
 ColorFilter.prototype.Write_ToBinary2 = function(writer) {
@@ -9959,7 +9959,7 @@ Top10.prototype.toXml = function(writer, name) {
 	if (null !== this.FilterVal) {
 		writer.WriteXmlAttributeNumber("filterVal", this.FilterVal);
 	}
-	writer.WriteXmlNodeEnd(name, true, true);
+	writer.WriteXmlAttributesEnd(true);
 };
 Top10.prototype.Write_ToBinary2 = function(w) {
 	if (null !== this.FilterVal) {
