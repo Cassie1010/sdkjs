@@ -2690,7 +2690,7 @@
 	 * @typeofeditors ["CSE"]
 	 * @param {String} shift - Specifies which way to shift the cells ("right", "down")
 	 */
-	 ApiRange.prototype.Insert = function(shift) {
+	ApiRange.prototype.Insert = function(shift) {
 		if (shift && typeof Shift == "string") {
 			shift = shift.toLocaleLowerCase();
 		} else {
@@ -2703,6 +2703,34 @@
 			this.range.addCellsShiftBottom();
 		else
 			this.range.addCellsShiftRight()
+	};
+
+	/**
+	 * Copies the range to the specified range.
+	 * @memberof ApiRange
+	 * @typeofeditors ["CSE"]
+	 * @param {ApiRange} destination - Specifies the new range to which the specified range will be copied
+	 */
+	ApiRange.prototype.Copy = function(destination) {
+		if (destination && destination instanceof ApiRange) {
+			this.range.move(this.range.bbox, destination.range.bbox, true, destination.range.worksheet);
+		} else {
+			return new Error ("Invalid destination");
+		}
+	};
+
+	/**
+	 * Pastes a Range object.
+	 * @memberof ApiRange
+	 * @typeofeditors ["CSE"]
+	 * @param {ApiRange} range - Specifies the range to be pasted to the current range
+	 */
+	ApiRange.prototype.Paste = function(range) {
+		if (range && range instanceof ApiRange) {
+			range.move(range.range.bbox, this.range.bbox, true, this.range.worksheet);
+		} else {
+			return new Error ("Invalid range");
+		}
 	};
 
 	//------------------------------------------------------------------------------------------------------------------
@@ -3426,6 +3454,8 @@
 	ApiRange.prototype["SetSort"] = ApiRange.prototype.SetSort;
 	ApiRange.prototype["Delete"] = ApiRange.prototype.Delete;
 	ApiRange.prototype["Insert"] = ApiRange.prototype.Insert;
+	ApiRange.prototype["Copy"] = ApiRange.prototype.Copy;
+	ApiRange.prototype["Paste"] = ApiRange.prototype.Paste;
 
 
 	ApiDrawing.prototype["GetClassType"]               =  ApiDrawing.prototype.GetClassType;

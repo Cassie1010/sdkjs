@@ -16895,6 +16895,10 @@
 	Range.prototype.getLeftTopCellNoEmpty = function(fAction) {
 		return this.worksheet._getCellNoEmpty(this.bbox.r1, this.bbox.c1, fAction);
 	};
+	
+	Range.prototype.move = function (oBBoxFrom, oBBoxTo, copyRange, wsTo) {
+		this.worksheet._moveRange(oBBoxFrom, oBBoxTo, copyRange, wsTo);
+	};
 
 	function RowIterator() {
 	}
