@@ -8871,6 +8871,96 @@ background-repeat: no-repeat;\
 	//----------------------------------------------------------------------------------------------------------------------
 	// Работаем с ContentControl
 	//----------------------------------------------------------------------------------------------------------------------
+
+	asc_docs_api.prototype.asc_AddContentControl = function(nType, oContentControlPr)
+	{
+		var oLogicDocument = this.WordControl.m_oLogicDocument;
+		if (!oLogicDocument)
+			return;
+
+		var sDefaultText = AscCommon.translateManager.getValue('Your text here');
+		if (c_oAscSdtLevelType.Block === nType)
+		{
+			if (false === oLogicDocument.Document_Is_SelectionLocked(AscCommon.changestype_ContentControl_Add))
+			{
+				oLogicDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_AddBlockLevelContentControl);
+
+				var oContentControl = oLogicDocument.AddContentControl(c_oAscSdtLevelType.Block);
+				if (!oContentControl)
+				{
+					History.Remove_LastPoint();
+					return;
+				}
+				else
+				{
+					if (oContentControlPr)
+						oContentControl.SetContentControlPr(oContentControlPr);
+
+					if (oContentControl.IsEmpty())
+					{
+						// TODO: Разобраться с тем, чтобы пересчет не вызывался в фунции AddToParagraph
+						oLogicDocument.TurnOff_Recalculate();
+						for (var oIterator = sDefaultText.getUnicodeIterator(); oIterator.check(); oIterator.next())
+						{
+							var nCharCode = oIterator.value();
+							if (0x0020 === nCharCode)
+								oContentControl.AddToParagraph(new AscCommonWord.ParaSpace());
+							else
+								oContentControl.AddToParagraph(new AscCommonWord.ParaText(nCharCode));
+						}
+						oLogicDocument.SelectContentControl(oContentControl.GetId());
+						oLogicDocument.TurnOn_Recalculate();
+					}
+
+					oLogicDocument.Recalculate();
+					oLogicDocument.Document_UpdateInterfaceState();
+					oLogicDocument.Document_UpdateSelectionState();
+
+					return oContentControl.GetContentControlPr();
+				}
+			}
+		}
+		else if (c_oAscSdtLevelType.Inline === nType)
+		{
+			if (false === oLogicDocument.Document_Is_SelectionLocked(AscCommon.changestype_ContentControl_Add))
+			{
+				oLogicDocument.Create_NewHistoryPoint(AscDFH.historydescription_Document_AddInlineLevelContentControl);
+
+				var oContentControl = oLogicDocument.AddContentControl(c_oAscSdtLevelType.Inline);
+
+				if (!oContentControl)
+				{
+					History.Remove_LastPoint();
+					return;
+				}
+				else
+				{
+					if (oContentControl.IsEmpty())
+					{
+						for (var oIterator = sDefaultText.getUnicodeIterator(); oIterator.check(); oIterator.next())
+						{
+							var nCharCode = oIterator.value();
+							if (0x0020 === nCharCode)
+								oContentControl.Add(new AscCommonWord.ParaSpace());
+							else
+								oContentControl.Add(new AscCommonWord.ParaText(nCharCode));
+
+						}
+						oContentControl.SelectThisElement();
+					}
+
+					if (oContentControlPr)
+						oContentControl.SetContentControlPr(oContentControlPr);
+
+					oLogicDocument.Recalculate();
+					oLogicDocument.Document_UpdateInterfaceState();
+					oLogicDocument.Document_UpdateSelectionState();
+				}
+
+				return oContentControl.GetContentControlPr();
+			}
+		}
+	};
 	asc_docs_api.prototype.asc_RemoveContentControl = function(Id)
 	{
 		var oLogicDocument = this.WordControl.m_oLogicDocument;
@@ -12054,6 +12144,7 @@ background-repeat: no-repeat;\
     asc_docs_api.prototype["SetDrawImagePreviewBulletChangeListLevel"]	= asc_docs_api.prototype.SetDrawImagePreviewBulletChangeListLevel;
     asc_docs_api.prototype["SetDrawImagePreviewBulletForMenu"]			= asc_docs_api.prototype.SetDrawImagePreviewBulletForMenu;
 
+	asc_docs_api.prototype["asc_AddContentControl"]                     = asc_docs_api.prototype.asc_AddContentControl;
 	asc_docs_api.prototype["asc_RemoveContentControl"]                  = asc_docs_api.prototype.asc_RemoveContentControl;
 	asc_docs_api.prototype["asc_RemoveContentControlWrapper"]           = asc_docs_api.prototype.asc_RemoveContentControlWrapper;
 	asc_docs_api.prototype["asc_SetContentControlProperties"]           = asc_docs_api.prototype.asc_SetContentControlProperties;
