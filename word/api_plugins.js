@@ -196,6 +196,22 @@
         }
         return _ret;
     };
+	window["asc_docs_api"].prototype["pluginMethod_AddContentControl"] = function(type, pr)
+	{
+		var _content_control_pr;
+		if (pr)
+		{
+			_content_control_pr = new AscCommon.CContentControlPr();
+			_content_control_pr.Id = pr["Id"];
+			_content_control_pr.Tag = pr["Tag"];
+			_content_control_pr.Lock = pr["Lock"];
+		}
+
+		var _obj = this.asc_AddContentControl(type, _content_control_pr);
+		if (!_obj)
+			return undefined;
+		return {"Tag" : _obj.Tag, "Id" : _obj.Id, "Lock" : _obj.Lock, "InternalId" : _obj.InternalId};
+	};
     /**
      * This method allows to remove content control, but leave all its contents.
      * @memberof Api
